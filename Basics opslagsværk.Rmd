@@ -1,0 +1,202 @@
+---
+title: "Basics Cheatsheet"
+author: "Line E. Ravnsgaard"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+##install.packages("yarrr")
+#dette downloader pakken vi bruger i dette dokument og behøves kun køres 1 gang, derfor står den her oppe. 
+```
+
+## if (file.exists(".Renviron")) readRenviron(".Renviron")
+
+# Lena Kode-Opslagsværk
+
+Først loader vi lige et datasæt så du kan se hvad koderne gør.
+
+```{r}
+#koden for at loade et dataset der er gemt i en mappe på computeren. vi henviser til "working directory" som man kan indstille hvor skal være. Jeg anbefaler at det er samme mappe som din R ligger i, gem gerne alle dine filer i samme mappe så de kan hentes på samme måde.
+GraveBeads<-read.csv("./data/GraveBeads.csv")
+## ./ henviser til "working directory" så du skifter "Gravebeads.csv" ud med dit andet filnavn med dens ext (.csv, .txt, .doc) men det er oftests CSV filer
+
+#Koden for at loade et dataset fra et "bibliotek" der ligger I R
+library(yarrr)
+##her henter vi et data bibliotek ned fra den pakke vi har loaded (Yarr) 
+PData<-(pirates)
+##her definere vi datasettet "Pirates", det er ikke stræng taget nødvendig men er oftere nemmere, specielt når man vil arbejde med kun 1 variabel:
+PT<-(pirates$tattoos)
+##Nu har vi et datasæt det kun indeholder "tattoo" variablen i Pirates sættet.
+```
+
+## Tabeller og værdier
+
+Nedenfor har vi forskellige tabeller og værdier man kan få frem
+
+```{r}
+table(PData$college)
+#en simpel tabel over 1 variabel, denne er nominal og skrevet med bogstaver så tabellen tæller dem op.
+```
+
+```{r}
+table(PData$college,PData$age)
+table(PData$college,PData$sex)
+#to tabeller der tæller baseret på en anden variabel, her er det Skole og alder, skole og køn. 
+```
+
+De næste er værdierne du kan få vist, først hver for sig og så i summary funktionen.
+
+```{r}
+quantile(PData$age)
+
+```
+
+```{r}
+median(PData$age)
+```
+
+```{r}
+mean(PData$age)
+```
+
+```{r}
+summary(PData$age)
+```
+
+## Grafer og deres tilbehør
+
+Under hver graf sætter jeg alle de koder man kan sætte på da de ikke alle kan bruges til alle.
+
+### Boxplot
+
+```{r}
+boxplot(PData$age)
+```
+
+```{r}
+
+CCCC<-subset(pirates,pirates$college=="CCCC")
+JSSFP<-subset(pirates,pirates$college=="JSSFP")
+boxplot(CCCC$age,JSSFP$age, 
+ main = "Pirate Ages by college",
+ ylab= "Age",
+ #det sidste er gejl
+ col="powderblue",
+ pch=16,
+ cex=1)
+```
+
+### Histogram
+
+```{r}
+hist(PData$age)
+```
+
+```{r}
+
+hist(PData$age,
+     xlab = "Pirat Alder",
+     ylab = "Frekvens",
+     main = "Age of pirates",
+     col="powderblue")
+abline(v=mean(PData$age),col=2)
+abline(v=quantile(PData$age,0.25))
+abline(v=quantile(PData$age,0.75))
+```
+
+### Piechart
+
+```{r}
+pie(table(PData$college))
+#data skal være numerisk (og helst ikke for mange categorier! ellers er det CURSED) derfor "table(xxx)", men rene numeriske kan godt vises uden table.
+```
+
+```{r}
+pie(table(PData$college),
+    main = "Et udemærket piechart",
+    col=c("powderblue","slategrey"))
+```
+
+```{r}
+pie(PData$age,
+    main = "Et Cursed Piechart")
+```
+
+### Scatterplot
+
+```{r}
+par(pty="s") #square plots make scatterplots a little easier to interpret.
+plot(PData$age,PData$height,
+     main="height by age",
+     xlab="age",
+     ylab="height",
+     pch=16,
+     cex=1,
+     col=c("#ae7ade","#cd7ade","#de7ad4","#de7aa4","#e35d6d","#e3875d","#ede266"))
+
+#This is cursed but the code is correct so, just, use data meant for scatterplots. 
+```
+
+## Cheatcodes
+
+### tegn i plots
+
+-   pch = 0,square
+
+-   pch = 1,circle
+
+-   pch = 2,triangle point up
+
+-   pch = 3,plus pch = 4,cross
+
+-   pch = 5,diamond
+
+-   pch = 6,triangle point down
+
+-   pch = 7,square cross
+
+-   pch = 8,star
+
+-   pch = 9,diamond plus
+
+-   pch = 10,circle plus
+
+-   pch = 11,triangles up and down
+
+-   pch = 12,square plus
+
+-   pch = 13,circle cross
+
+-   pch = 14,square and triangle down
+
+-   pch = 15, filled square
+
+-   pch = 16, filled circle
+
+-   pch = 17, filled triangle point-up
+
+-   pch = 18, filled diamond
+
+-   pch = 19, solid circle
+
+-   pch = 20,bullet (smaller circle)
+
+-   pch = 21, filled circle blue
+
+-   pch = 22, filled square blue
+
+-   pch = 23, filled diamond blue
+
+-   pch = 24, filled triangle point-up blue
+
+-   pch = 25, filled triangle point down blue
+
+### Farver
+
+se bilag
